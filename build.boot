@@ -64,8 +64,8 @@
         (do
           (util/info "Installing node dependencies with `yarn install`\n")
           (if windows?
-            (dosh "cmd" "/c" "yarn" "install")
-            (dosh "yarn" "install")))
+            (dosh "cmd" "/c" "yarn" "install" "--ignore-engines")
+            (dosh "yarn" "install" "--ignore-engines")))
         (util/info "Node dependencies already installed, skipping `yarn install`\n")))))
 
 (deftask bundle-js
@@ -167,7 +167,10 @@
 
 (deftask prepare-snapshot []
   (with-pass-thru _
-    (dosh "node" "scripts/prepare_snapshot.js")))
+    (dosh "node" "scripts/prepare_snapshot.js")
+    (if windows?
+      (dosh "cmd" "/c" "yarn" "prepack")
+      (dosh "yarn" "prepack"))))
 
 (deftask package-executable []
   (with-pass-thru _

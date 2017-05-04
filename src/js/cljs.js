@@ -167,6 +167,11 @@ function newDevelopmentContext(): vm$Context {
 }
 
 function newClojureScriptContext(): { [key: string]: mixed } {
+  // $FlowExpectedError: only exists in the custom V8 startup snapshot
+  initialize1(); // eslint-disable-line no-undef
+  // $FlowExpectedError: only exists in the custom V8 startup snapshot
+  initialize2(); // eslint-disable-line no-undef
+
   global.$$LUMO_GLOBALS = {
     crypto,
     fs,
