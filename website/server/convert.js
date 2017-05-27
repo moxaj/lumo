@@ -121,7 +121,7 @@ function writeFileAndCreateFolder(file, content) {
   fs.writeFileSync(file, content);
 }
 
-function execute() {
+function execute(cb = null) {
   const DOCS_MD_DIR = '../docs/';
   const BLOG_MD_DIR = '../blog/';
 
@@ -164,9 +164,14 @@ function execute() {
       }
     });
 
-    fs.writeFileSync(
+    fs.writeFile(
       'components/metadata.js',
       'export default ' + JSON.stringify(metadatas, null, 2) + ';',
+      () => {
+        if (cb != null) {
+          cb();
+        }
+      },
     );
   });
 }
