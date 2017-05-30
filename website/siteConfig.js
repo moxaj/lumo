@@ -257,7 +257,7 @@ const siteConfig = {
   githubButton,
   homepagePromos: [
     <div className="pluginRowBlock">
-      <Button href="#use">Install Lumo</Button>
+      <Button href="#try">Try out Lumo</Button>
       <Button href="/docs/getting-started.html">Get Started</Button>
       <Button href="/docs/snapshot-testing.html">Learn More</Button>
     </div>,
@@ -285,5 +285,3 @@ const siteConfig = {
   users,
 };
 module.exports = siteConfig;
-
-'Node.js is a trademark of Joyent, Inc. and is used with its permission. We are not endorsed by or affiliated with Joyent.';

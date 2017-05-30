@@ -54,10 +54,29 @@ $ brew remove lumo
 $ brew install --HEAD lumo
 ```
 
+### [Docker](https://store.docker.com/community/images/anmonteiro/lumo)
+
+An official [docker image](https://store.docker.com/community/images/anmonteiro/lumo)
+is available for Lumo. Executing the following commands at the terminal will land
+you in a Lumo REPL:
+
+```bash
+$ docker pull anmonteiro/lumo:latest
+$ docker run -it anmonteiro/lumo
+```
+
 ### Manually
 
 1. Download the [latest release](https://github.com/anmonteiro/lumo/releases/latest).
 2. Move it to somewhere in your `$PATH`.
+
+Example for Ubuntu:
+
+```bash
+$ wget https://github.com/anmonteiro/lumo/releases/download/1.5.0/lumo_linux64.zip
+$ unzip lumo_linux64.zip
+$ sudo mv lumo /usr/bin
+```
 
 ## Running Lumo
 
