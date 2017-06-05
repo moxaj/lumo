@@ -1,13 +1,10 @@
-/**
- * @jsx React.DOM
- */
+import React, { Component } from 'react';
+import Site from '../components/Site';
+import Container from '../components/Container';
 
-const React = require('React');
-const Site = require('Site');
-const Container = require('Container');
 const siteConfig = require('../siteConfig.js');
 
-class UserShowcase extends React.Component {
+export default class UserShowcase extends Component {
   render() {
     const showcase = siteConfig.users.map(user => {
       return (
@@ -48,5 +45,3 @@ class UserShowcase extends React.Component {
     );
   }
 }
-
-module.exports = UserShowcase;

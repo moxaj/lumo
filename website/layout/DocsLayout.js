@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import Site from '../components/Site';
 import Container from '../components/Container';
 import Doc from '../components/Doc';

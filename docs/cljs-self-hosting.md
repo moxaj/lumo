@@ -1,10 +1,9 @@
 ---
-id: crlh
-title: Running Lumo
+id: bla
+title: BLA
 layout: docs
-category: Introduction
+category: Developers
 permalink: docs/bla.html
-
 ---
 
 ## Related projects

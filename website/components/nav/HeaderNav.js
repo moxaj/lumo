@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 
-import React, { Compoennt } from 'React';
+import React, { Compoennt } from 'react';
 console.log('LAL REQUIRING HEADER NAV');
 
 export default class HeaderNav extends React.Component {

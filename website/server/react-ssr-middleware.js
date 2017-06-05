@@ -57,7 +57,9 @@ export default function middleware(req, res, next) {
   clear(importPath);
   import(importPath)
     .then(({ default: component }) => {
-      const markup = `<!DOCTYPE html>${ReactDOMServer.renderToStaticMarkup(React.createElement(component))}`;
+      const markup = `<!DOCTYPE html>${ReactDOMServer.renderToStaticMarkup(
+        React.createElement(component),
+      )}`;
 
       res.setHeader('Date', new Date().toUTCString());
       // Always assume we had compiled something that may have changed.

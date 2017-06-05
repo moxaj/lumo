@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import RedirectLayout from '../layout/RedirectLayout';
 
 export default class Support extends React.Component {

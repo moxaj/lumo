@@ -29,36 +29,35 @@ const queue = (function() {
       execute();
     });
   }
-  return {push};
+  return { push };
 })();
 
-queue.push(cb => {
-  mkdirp.sync('build/jest/blog/');
-  fs.writeFileSync('build/jest/blog/feed.xml', feed('rss'));
-  fs.writeFileSync('build/jest/blog/atom.xml', feed('atom'));
-  console.log('Generated RSS feed');
-  cb();
-});
+// queue.push(cb => {
+//   mkdirp.sync('build/jest/blog/');
+//   fs.writeFileSync('build/jest/blog/feed.xml', feed('rss'));
+//   fs.writeFileSync('build/jest/blog/atom.xml', feed('atom'));
+//   console.log('Generated RSS feed');
+//   cb();
+// });
 
 glob('src/**/*.*', (er, files) => {
+  files.push('src/css/main.css');
+
   files.forEach(file => {
+    console.log('file', file);
     let targetFile = file.replace(/^src/, 'build');
 
-    if (file.match(/\.js$/)) {
-      targetFile = targetFile.replace(/\.js$/, '.html');
-      queue.push(cb => {
-        request('http://localhost:8079/' + targetFile.replace(/^build\//, ''), (error, response, body) => {
+    targetFile = targetFile.replace(/\.js$/, '.html');
+    queue.push(cb => {
+      request(
+        'http://localhost:8079/' + targetFile.replace(/^build\//, ''),
+        (error, response, body) => {
           mkdirp.sync(targetFile.replace(new RegExp('/[^/]*$'), ''));
           fs.writeFileSync(targetFile, body);
           cb();
-        });
-      });
-    } else {
-      queue.push(cb => {
-        mkdirp.sync(targetFile.replace(new RegExp('/[^/]*$'), ''));
-        fs.copy(file, targetFile, cb);
-      });
-    }
+        },
+      );
+    });
   });
 
   queue.push(cb => {

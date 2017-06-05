@@ -1,9 +1,4 @@
-/**
- * @providesModule H2
- * @jsx React.DOM
- */
-
-const React = require('React');
+const React = require('react');
 const Header = require('Header');
 
 const H2 = React.createClass({

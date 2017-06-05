@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys, max-len */
 
 const Button = require('./components/Button');
-const React = require('React');
+const React = require('react');
 
 const githubButton = (
   <a
@@ -250,7 +250,8 @@ const users = [
 const siteConfig = {
   title: 'Lumo',
   tagline: 'Fast, cross-platform, standalone ClojureScript environment',
-  description: 'Jest is a JavaScript testing framework, used by Facebook to test all JavaScript code including React applications.',
+  description:
+    'Jest is a JavaScript testing framework, used by Facebook to test all JavaScript code including React applications.',
   url: 'https://anmonteiro.github.io',
   baseUrl: '/',
   repo: 'anmonteiro/lumo',
@@ -267,19 +268,22 @@ const siteConfig = {
       image: '/img/content/rocket.png',
       imageAlign: 'top',
       title: 'Instant startup',
-      content: 'Lumo starts up instantly, giving you access to a full-featured ClojureScript environment in less than 200 milliseconds.',
+      content:
+        'Lumo starts up instantly, giving you access to a full-featured ClojureScript environment in less than 200 milliseconds.',
     },
     {
       image: '/img/content/cljslogo.svg',
       imageAlign: 'top',
       title: 'Clojure(Script)',
-      content: 'Harness the full power of ClojureScript in a self-contained, cross-platform environment with no setup necessary.',
+      content:
+        'Harness the full power of ClojureScript in a self-contained, cross-platform environment with no setup necessary.',
     },
     {
       image: '/img/content/nodejslogo.png',
       imageAlign: 'top',
       title: 'Instant Feedback',
-      content: 'All the power of Node.js and seamless integration with more than 450 thousand NPM packages in a single binary.',
+      content:
+        'All the power of Node.js and seamless integration with more than 450 thousand NPM packages in a single binary.',
     },
   ],
   users,

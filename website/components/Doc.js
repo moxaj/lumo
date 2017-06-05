@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import Marked from './Marked';
 
 export default class Doc extends React.Component {
@@ -10,7 +10,7 @@ export default class Doc extends React.Component {
             className="edit-page-link button"
             href={
               'https://github.com/anmonteiro/lumo/edit/master/docs/' +
-                this.props.source
+              this.props.source
             }
             target="_blank"
           >

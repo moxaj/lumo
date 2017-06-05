@@ -1,10 +1,6 @@
-/**
- * @providesModule ReferenceLayout
- * @jsx React.DOM
- */
- /* eslint-disable max-len */
+/* eslint-disable max-len */
 
-const React = require('React');
+const React = require('react');
 const Site = require('Site');
 const Container = require('Container');
 const Doc = require('Doc');
@@ -19,12 +15,21 @@ const ReferenceLayout = React.createClass({
         className="sideNavVisible"
         section="docs"
         title={metadata.title}
-        description={content.trim().split('\n')[0]}>
+        description={content.trim().split('\n')[0]}
+      >
         <div className="docMainWrapper wrapper">
-          <DocsSidebar metadata={metadata} title="API" root="/jest/docs/api.html" layout="reference" />
+          <DocsSidebar
+            metadata={metadata}
+            title="API"
+            root="/jest/docs/api.html"
+            layout="reference"
+          />
           <Container className="mainContainer referenceContainer">
-            <Doc content={content} source={metadata.source}
-              title={metadata.title} />
+            <Doc
+              content={content}
+              source={metadata.source}
+              title={metadata.title}
+            />
           </Container>
         </div>
       </Site>

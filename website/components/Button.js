@@ -1,4 +1,4 @@
-const React = require('React');
+const React = require('react');
 
 class Button extends React.Component {
   render() {

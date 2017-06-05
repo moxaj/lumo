@@ -98,7 +98,7 @@ function buildFile(layout, metadata, rawContent) {
     '/**',
     ' * @generated',
     ' */',
-    'import React from "React";',
+    'import React from "react";',
     'import Layout from "../../layout/' + layout + '";',
     rawContent && 'var content = ' + backtickify(rawContent) + ';',
     'export default class Post extends React.Component{',

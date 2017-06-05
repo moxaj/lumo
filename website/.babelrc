@@ -8,5 +8,4 @@
       }
     }]
   ],
-  "plugins": ["dynamic-import-node"]
 }

@@ -16,7 +16,11 @@ if (!which(`git`)) {
   exit(1);
 }
 
-if (CI_PULL_REQUEST || CIRCLE_BRANCH !== `master` || CIRCLE_PROJECT_USERNAME !== `facebook`) {
+if (
+  CI_PULL_REQUEST ||
+  CIRCLE_BRANCH !== `master` ||
+  CIRCLE_PROJECT_USERNAME !== `facebook`
+) {
   echo(`Skipping deploy`);
   exit(0);
 }
@@ -30,17 +34,22 @@ mkdir(`-p`, `build`);
 // Build site here
 cd(`build`);
 
-if (exec(`git clone ${remoteBranch} ${CIRCLE_PROJECT_REPONAME}-gh-pages`).code !== 0) {
+if (
+  exec(`git clone ${remoteBranch} ${CIRCLE_PROJECT_REPONAME}-gh-pages`).code !==
+  0
+) {
   echo(`Error: Git clone failed`);
   exit(1);
 }
 
 cd(`${CIRCLE_PROJECT_REPONAME}-gh-pages`);
 
-if (exec(`git checkout origin/gh-pages`).code +
+if (
+  exec(`git checkout origin/gh-pages`).code +
     exec(`git checkout -b gh-pages`).code +
-    exec(`git branch --set-upstream-to=origin/gh-pages`).code !== 0
-    ) {
+    exec(`git branch --set-upstream-to=origin/gh-pages`).code !==
+  0
+) {
   echo(`Error: Git checkout gh-pages failed`);
   exit(1);
 }
@@ -52,7 +61,11 @@ if (exec(`node server/generate.js`).code) {
   exit(1);
 }
 
-cp(`-R`, `build/${CIRCLE_PROJECT_REPONAME}/*`, `build/${CIRCLE_PROJECT_REPONAME}-gh-pages/`);
+cp(
+  `-R`,
+  `build/${CIRCLE_PROJECT_REPONAME}/*`,
+  `build/${CIRCLE_PROJECT_REPONAME}-gh-pages/`,
+);
 cd(`build/${CIRCLE_PROJECT_REPONAME}-gh-pages`);
 
 exec(`git add --all`);
@@ -61,6 +74,8 @@ if (exec(`git push origin gh-pages`).code !== 0) {
   echo(`Error: Git push failed`);
   exit(1);
 } else {
-  echo(`Website is live at: https://${CIRCLE_PROJECT_USERNAME}.github.io/${CIRCLE_PROJECT_REPONAME}/`);
+  echo(
+    `Website is live at: https://${CIRCLE_PROJECT_USERNAME}.github.io/${CIRCLE_PROJECT_REPONAME}/`,
+  );
   exit(0);
 }

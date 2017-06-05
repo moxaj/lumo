@@ -1,17 +1,10 @@
-/**
- * Copyright 2004-present Facebook. All Rights Reserved.
- *
- * @providesModule BlogPageLayout
- * @jsx React.DOM
- */
-
- /* eslint-disable max-len */
+/* eslint-disable max-len */
 
 const BlogPost = require('BlogPost');
 const BlogSidebar = require('BlogSidebar');
 const Container = require('Container');
 const MetadataBlog = require('MetadataBlog');
-const React = require('React');
+const React = require('react');
 const Site = require('Site');
 
 const BlogPageLayout = React.createClass({
@@ -27,14 +20,10 @@ const BlogPageLayout = React.createClass({
     const perPage = this.props.metadata.perPage;
     const page = this.props.metadata.page;
     return (
-      <Site
-        section="blog"
-        title="Blog">
+      <Site section="blog" title="Blog">
         <div className="docMainWrapper wrapper">
           <BlogSidebar />
-          <Container
-            className="mainContainer documentContainer postContainer blogContainer"
-          >
+          <Container className="mainContainer documentContainer postContainer blogContainer">
             <div className="posts">
               {MetadataBlog.files
                 .slice(page * perPage, (page + 1) * perPage)
@@ -47,13 +36,16 @@ const BlogPageLayout = React.createClass({
                       key={post.path + post.title}
                     />
                   );
-                })
-              }
+                })}
               <div className="docs-prevnext">
                 {page > 0 &&
-                  <a className="docs-prev" href={this.getPageURL(page - 1)}>&larr; Prev</a>}
+                  <a className="docs-prev" href={this.getPageURL(page - 1)}>
+                    &larr; Prev
+                  </a>}
                 {MetadataBlog.files.length > (page + 1) * perPage &&
-                  <a className="docs-next" href={this.getPageURL(page + 1)}>Next &rarr;</a>}
+                  <a className="docs-next" href={this.getPageURL(page + 1)}>
+                    Next &rarr;
+                  </a>}
               </div>
             </div>
           </Container>

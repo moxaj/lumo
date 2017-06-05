@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import classNames from 'classnames';
 
 export default class SideNav extends React.Component {

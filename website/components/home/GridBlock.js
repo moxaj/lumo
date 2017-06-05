@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import classNames from 'classnames';
 
 import Marked from '../Marked';
@@ -10,8 +10,9 @@ export default class GridBlock extends React.Component {
       alignRight: this.props.align === 'right',
       fourByGridBlock: this.props.layout === 'fourColumn',
       imageAlignBottom: block.image && block.imageAlign === 'bottom',
-      imageAlignSide: block.image &&
-        (block.imageAlign === 'left' || block.imageAlign === 'right'),
+      imageAlignSide:
+        block.image &&
+          (block.imageAlign === 'left' || block.imageAlign === 'right'),
       imageAlignTop: block.image && block.imageAlign === 'top',
       threeByGridBlock: this.props.layout === 'threeColumn',
       twoByGridBlock: this.props.layout === 'twoColumn',

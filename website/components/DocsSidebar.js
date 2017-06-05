@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 
-import React from 'React';
+import React from 'react';
 import Metadata from './metadata';
 import Container from './Container';
 import SideNav from './nav/SideNav';
@@ -10,7 +10,6 @@ export default class DocsSidebar extends React.Component {
     const metadatas = Metadata.files.filter(metadata => {
       return metadata.layout === this.props.layout;
     });
-
     // Build a hashmap of article_id -> metadata
     const articles = {};
     for (let i = 0; i < metadatas.length; ++i) {

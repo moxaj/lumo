@@ -169,7 +169,8 @@ var Prism = (function() {
     highlightAll: function(async, callback) {
       var env = {
         callback: callback,
-        selector: 'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code',
+        selector:
+          'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code',
       };
 
       _.hooks.run('before-highlightall', env);
@@ -183,7 +184,9 @@ var Prism = (function() {
 
     highlightElement: function(element, async, callback) {
       // Find language
-      var language, grammar, parent = element;
+      var language,
+        grammar,
+        parent = element;
 
       while (parent && !lang.test(parent.className)) {
         parent = parent.parentNode;
@@ -317,7 +320,7 @@ var Prism = (function() {
           for (
             var i = index, pos = startPos;
             i < strarr.length;
-            (pos += strarr[i].length), ++i
+            pos += strarr[i].length, ++i
           ) {
             var str = strarr[i];
 
@@ -332,7 +335,8 @@ var Prism = (function() {
 
             pattern.lastIndex = 0;
 
-            var match = pattern.exec(str), delNum = 1;
+            var match = pattern.exec(str),
+              delNum = 1;
 
             // Greedy patterns can override/remove up to two previously matched tokens
             if (!match && greedy && i != strarr.length - 1) {
@@ -982,83 +986,6 @@ Prism.languages.js = Prism.languages.javascript;
 	 * Register the toolbar with Prism.
 	 */
   Prism.hooks.add('complete', hook);
-})();
-
-(function() {
-  if (typeof self === 'undefined' || !self.Prism || !self.document) {
-    return;
-  }
-
-  if (!Prism.plugins.toolbar) {
-    console.warn('Copy to Clipboard plugin loaded before Toolbar plugin.');
-
-    return;
-  }
-
-  var Clipboard = window.Clipboard || undefined;
-
-  if (!Clipboard && typeof require === 'function') {
-    Clipboard = require('clipboard');
-  }
-
-  var callbacks = [];
-
-  if (!Clipboard) {
-    var script = document.createElement('script');
-    var head = document.querySelector('head');
-
-    script.onload = function() {
-      Clipboard = window.Clipboard;
-
-      if (Clipboard) {
-        while (callbacks.length) {
-          callbacks.pop()();
-        }
-      }
-    };
-
-    script.src =
-      'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.8/clipboard.min.js';
-    head.appendChild(script);
-  }
-
-  Prism.plugins.toolbar.registerButton('copy-to-clipboard', function(env) {
-    var linkCopy = document.createElement('a');
-    linkCopy.textContent = 'Copy';
-
-    if (!Clipboard) {
-      callbacks.push(registerClipboard);
-    } else {
-      registerClipboard();
-    }
-
-    return linkCopy;
-
-    function registerClipboard() {
-      var clip = new Clipboard(linkCopy, {
-        text: function() {
-          return env.code;
-        },
-      });
-
-      clip.on('success', function() {
-        linkCopy.textContent = 'Copied!';
-
-        resetText();
-      });
-      clip.on('error', function() {
-        linkCopy.textContent = 'Press Ctrl+C to copy';
-
-        resetText();
-      });
-    }
-
-    function resetText() {
-      setTimeout(function() {
-        linkCopy.textContent = 'Copy';
-      }, 5000);
-    }
-  });
 })();
 
 export default class PrismComponent extends Component {

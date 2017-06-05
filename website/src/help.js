@@ -1,16 +1,19 @@
 /* eslint-disable sort-keys, max-len, no-multi-str */
 
-import React from 'React';
+import React from 'react';
 import Site from '../components/Site';
 import Container from '../components/Container';
 import GridBlock from '../components/home/GridBlock';
+
+import { lolix } from './help.css';
 
 export default class support extends React.Component {
   render() {
     const supportLinks = [
       {
         title: 'Browse the docs',
-        content: "Find what you're looking for in our detailed documentation and guides.\r\n\r\n\
+        content:
+          "Find what you're looking for in our detailed documentation and guides.\r\n\r\n\
 - Learn how to [get started](/jest/docs/getting-started.html) with Jest.\r\n\
 - [Troubleshoot](/jest/docs/troubleshooting.html) problems with Jest.\r\n\
 - Learn how to [configure Jest](/jest/docs/configuration.html).\r\n\
@@ -18,13 +21,15 @@ export default class support extends React.Component {
       },
       {
         title: 'Join the community',
-        content: 'Ask questions and find answers from other Jest users like you.\r\n\r\n\
+        content:
+          'Ask questions and find answers from other Jest users like you.\r\n\r\n\
 - Join the [#jest](https://discordapp.com/channels/102860784329052160/103622435865104384) channel on [Reactiflux](http://www.reactiflux.com/), a Discord community.\r\n\
 - Many members of the community use Stack Overflow. Read through the [existing questions](https://stackoverflow.com/questions/tagged/jestjs) tagged with **jestjs** or [ask your own](https://stackoverflow.com/questions/ask)!',
       },
       {
         title: 'Stay up to date',
-        content: "Find out what's new with Jest.\r\n\r\n\
+        content:
+          "Find out what's new with Jest.\r\n\r\n\
 - Follow [Jest](https://twitter.com/fbjest) on Twitter.\r\n\
 - Subscribe to the [Jest blog](/jest/blog/).\r\n\
 - Look at the [changelog](https://github.com/facebook/jest/blob/master/CHANGELOG.md).",

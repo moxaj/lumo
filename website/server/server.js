@@ -12,7 +12,14 @@ const fs = require('fs');
 const http = require('http');
 const optimist = require('optimist');
 const path = require('path');
+// const webpackMiddleware = require('webpack-dev-middleware');
+import webpackServerRenderMiddleware from './webpack-server-render-middleware';
+
 import reactSSRMiddleware from './react-ssr-middleware';
+const webpack = require('webpack');
+const webpackConfig = require('../webpack.config.js');
+
+const compiler = webpack(webpackConfig);
 
 const argv = optimist.argv;
 
@@ -38,7 +45,13 @@ const app = connect()
   .use('/blog/atom.xml', (req, res) => {
     res.end(fs.readFileSync(path.join(FILE_SERVE_ROOT, 'blog/atom.xml')) + '');
   })
-  .use(reactSSRMiddleware)
+  .use(
+    webpackServerRenderMiddleware(compiler, {
+      quiet: true,
+      cssBundleFilename: 'css/main.css',
+    }),
+  )
+  // .use(reactSSRMiddleware)
   .use(serveStatic(FILE_SERVE_ROOT))
   .use(favicon(path.join(FILE_SERVE_ROOT, 'favicon.ico')))
   .use(morgan('combined'))

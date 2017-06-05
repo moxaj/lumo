@@ -1,20 +1,13 @@
-/**
- * @providesModule center
- * @jsx React.DOM
- */
-
-const React = require('React');
+const React = require('react');
 
 const assign = require('object-assign');
 
 const center = React.createClass({
   render() {
-    const {style, ...props} = this.props;
-    const newStyle = assign({}, style, {textAlign: 'center'});
+    const { style, ...props } = this.props;
+    const newStyle = assign({}, style, { textAlign: 'center' });
 
-    return (
-      <div {...props} style={newStyle}>{this.props.children}</div>
-    );
+    return <div {...props} style={newStyle}>{this.props.children}</div>;
   },
 });
 

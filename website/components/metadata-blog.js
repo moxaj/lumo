@@ -3,5 +3,5 @@
  * @providesModule MetadataBlog
  */
 module.exports = {
-  "files": []
+  files: [],
 };

@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 const siteConfig = require('../siteConfig.js');
 
 export default class Footer extends React.Component {

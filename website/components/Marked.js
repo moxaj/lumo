@@ -6,7 +6,7 @@
 
 /* eslint-disable max-len, sort-keys */
 
-import React, { Component } from 'React';
+import React, { Component } from 'react';
 import Prism from './Prism';
 import Header from './Header';
 

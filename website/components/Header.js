@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 
-import React, { Component } from 'React';
+import React, { Component } from 'react';
 import toSlug from './toSlug';
 
 export default class Header extends Component {

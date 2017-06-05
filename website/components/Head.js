@@ -32,6 +32,8 @@ export default class Head extends Component {
           href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"
         />
         <link rel="stylesheet" href="/css/jest.css?v=2" />
+        <link rel="stylesheet" href="/css/main.css" />
+
         <link
           rel="stylesheet"
           href="//cdn.jsdelivr.net/font-hack/2.020/css/hack.min.css"
