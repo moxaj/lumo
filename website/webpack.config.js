@@ -1,21 +1,19 @@
-const glob = require('glob');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const MergeFilesPlugin = require('merge-files-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   devtool: 'cheap-eval-source-map',
-  entry: glob.sync('src/**/*.js').reduce((ret, x) => {
-    ret[path.relative('src', x)] = path.join(__dirname, '.', x);
-    return ret;
-  }, {}),
+  entry: './index.js',
   output: {
     path: path.resolve('./dist'),
-    filename: '[name]',
+    filename: '[name].js',
+    chunkFilename: '[name].js',
     libraryTarget: 'commonjs2',
     publicPath: '/',
   },
   target: 'node',
+  externals: nodeExternals(),
   module: {
     loaders: [
       {
@@ -42,13 +40,8 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: '[name].css',
+      filename: 'css/[name].css',
       allChunks: true,
-    }),
-    new MergeFilesPlugin({
-      filename: 'css/main.css',
-      test: /\.css$/,
-      deleteSourceFiles: true,
     }),
   ],
 };

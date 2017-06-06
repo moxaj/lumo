@@ -50,8 +50,16 @@ const middlewareCreator = (compiler, { cssBundleFilename, ...options }) => {
     consts.CSS_BUNDLE_RE = new RegExp(cssBundleFilename, 'i');
   }
 
-  const filename = `${compiler.options.output.path}/${compiler.options.output
-    .filename}`;
+  const compilerOutputPath = compiler.options.output.path;
+
+  const filename = `${compilerOutputPath}/main.js`;
+
+  global.requireAsset = assetName => {
+    const absPath = path.join(compilerOutputPath, assetName);
+    const assetSource = fs.readFileSync(absPath, 'utf8');
+
+    return evalAsModule(assetSource, absPath).exports;
+  };
 
   compiler.plugin('done', stats => {
     if (!options.quiet) console.log(stats.toString());
@@ -105,13 +113,11 @@ const middlewareCreator = (compiler, { cssBundleFilename, ...options }) => {
     if (err) throw err;
   });
 
-  const compilerOutputPath = compiler.options.output.path;
-
   return (req, res, next) => {
     // delay the request until we have a vaild bundle
     ready(processRequest, req);
 
-    function processRequest() {
+    async function processRequest() {
       const reqPath = url.parse(req.url).pathname;
 
       const isComponent =
@@ -126,22 +132,43 @@ const middlewareCreator = (compiler, { cssBundleFilename, ...options }) => {
       let markup;
       if (isComponent) {
         const chunkPath = consts.HAS_EXT_RE.test(reqPath)
-          ? reqPath.replace(/\.([^\/]+)$/, '.js')
-          : path.join(reqPath, 'index.js');
+          ? reqPath.replace(consts.ALL_TAGS_AND_EXT_RE, '')
+          : path.join(reqPath, 'index');
 
-        const chunkSource = fs.readFileSync(
-          path.join(compilerOutputPath, chunkPath),
-          'utf8',
-        );
+        const mainSource = fs.readFileSync(filename, 'utf8');
+
+        const { assetsByChunkName } = serverBundleStat;
+
+        const mainScript = `
+(function() {
+  const path = require('path');
+  const assetsByChunkName = ${JSON.stringify(assetsByChunkName)};
+  const originalRequire = require;
+  require = mod => {
+    const assetKey = path.relative('./', mod).replace(/\\.js[^\/]*$/,'');
+
+    if (assetsByChunkName[assetKey] != null) {
+      return global.requireAsset(mod);
+    } else {
+      return originalRequire(mod);
+    }
+  };
+  ${mainSource}
+})();\n`;
 
         const { exports: { default: component } } = evalAsModule(
-          chunkSource,
-          chunkPath,
+          mainScript,
+          'main.js',
         );
-        // TODO: error handling, wrap this in a try catch
-        markup = `<!DOCTYPE html>${ReactDOMServer.renderToStaticMarkup(
-          React.createElement(component),
-        )}`;
+        try {
+          const comp = await component(path.relative('/', chunkPath));
+          // TODO: error handling, wrap this in a try catch
+          markup = `<!DOCTYPE html>${ReactDOMServer.renderToStaticMarkup(
+            React.createElement(comp),
+          )}`;
+        } catch (e) {
+          next(e);
+        }
       } else if (isCSSBundle) {
         markup = fs.readFileSync(
           path.join(compilerOutputPath, reqPath),

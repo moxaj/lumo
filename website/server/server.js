@@ -12,10 +12,8 @@ const fs = require('fs');
 const http = require('http');
 const optimist = require('optimist');
 const path = require('path');
-// const webpackMiddleware = require('webpack-dev-middleware');
 import webpackServerRenderMiddleware from './webpack-server-render-middleware';
 
-import reactSSRMiddleware from './react-ssr-middleware';
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
 
