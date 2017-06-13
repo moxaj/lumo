@@ -13,6 +13,7 @@
             [lumo.compiler :as lcomp]
             [lumo.cljs-deps :as deps]
             [lumo.io :as io :refer [slurp spit]]
+            [lumo.classpath :as classpath]
             [clojure.set :as set]
             [clojure.string :as string]
             [lumo.json :as json]
@@ -2029,8 +2030,8 @@
                   opts js-modules)))
       opts)))
 
-(defn- load-data-reader-file [mappings url]
-  (let [rdr (readers/string-push-back-reader (slurp url))]
+(defn- load-data-reader-source [mappings {:keys [get-content-fn url]}]
+  (let [rdr (readers/string-push-back-reader (get-content-fn))]
     (do ;binding [*file* (.getFile url)]
       (let [new-mappings (reader/read {:eof nil :read-cond :allow} rdr)]
         (when (not (map? new-mappings))
@@ -2052,19 +2053,19 @@
           mappings
           new-mappings)))))
 
-;; (defn get-data-readers*
-;;   "returns a merged map containing all data readers defined by libraries
-;;    on the classpath."
-;;   ([]
-;;    (get-data-readers* (. (Thread/currentThread) (getContextClassLoader))))
-;;   ([classloader]
-;;    (let [data-reader-urls (enumeration-seq (. classloader (getResources "data_readers.cljc")))]
-;;      (reduce load-data-reader-file {} data-reader-urls))))
+(defn get-data-readers*
+  "Returns a merged map containing all data readers defined by libraries
+   on the classpath."
+  []
+  (->> (concat (mapcat classpath/files-in-directory (classpath/classpath-directories))
+               (mapcat classpath/files-in-jar (classpath/classpath-jarfiles)))
+       (filter (comp #{"data_readers.clj" "data_readers.cljs" "data_readers.cljc"} :name))
+       (reduce load-data-reader-source {})))
 
-;; (def get-data-readers (memoize get-data-readers*))
+(def get-data-readers (memoize get-data-readers*))
 
-;; (defn load-data-readers! [compiler]
-;;   (swap! compiler update-in [:cljs.analyzer/data-readers] merge (get-data-readers)))
+(defn load-data-readers! [compiler]
+  (swap! compiler update-in [:cljs.analyzer/data-readers] merge (get-data-readers)))
 
 (defn add-externs-sources [opts]
   (cond-> opts
@@ -2135,8 +2136,7 @@
                  compile-opts (if one-file?
                                 (assoc all-opts :output-file (:output-to all-opts))
                                 all-opts)
-                 ;; TODO: enable this
-                 ;_ (load-data-readers! compiler-env)
+                 _ (load-data-readers! compiler-env)
                  ]
              (-> (-find-sources source all-opts)
                (add-dependency-sources compile-opts)

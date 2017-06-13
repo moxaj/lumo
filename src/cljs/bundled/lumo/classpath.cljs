@@ -1,7 +1,10 @@
 (ns lumo.classpath
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as string]
+            [lumo.io :as io]))
 
 (def fs (js/require "fs"))
+
+(def path (js/require "path"))
 
 (defn jar-file?
   "Returns true if file is a normal file with a .jar or .JAR extension."
@@ -21,6 +24,30 @@
       (filter (fn [f]
                 (not (.-dir f)))
         (js/Object.values zip.files)))))
+
+(defn files-in-jar
+  "Returns a list of files in the JAR file."
+  [jar-file]
+  (->> jar-file
+       (fs.readFileSync)
+       (.load (js/$$LUMO_GLOBALS.JSZip.))
+       (.-files)
+       (js/Object.values)
+       (filter #(not (.-dir %)))
+       (map #(hash-map :name (.-name %)
+                       :get-content-fn (fn [] (.asText %))
+                       :url (path.join jar-file (.-name %))))))
+
+(defn files-in-directory
+  "Returns a list of files in a directory."
+  [directory]
+  (->> directory
+       (fs.readdirSync)
+       (map #(path.join directory %))
+       (filter #(.. fs (statSync %) (isFile)))
+       (map #(hash-map :name (path.basename %)
+                       :get-content-fn (fn [] (io/slurp %))
+                       :url %))))
 
 (defn classpath
   "Returns a sequence of the elements on the classpath."
